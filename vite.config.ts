@@ -7,5 +7,8 @@ export default defineConfig({
     alias: {
       '@': '/src'
     }
+  },
+  optimizeDeps: {
+    include: ['vue', 'vue-router']
   }
 });
