@@ -8,9 +8,17 @@
   </router-link>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import type { IGame } from '@/types/Game';
-defineProps<{ game: IGame }>();
+
+export default {
+  props: {
+    game: {
+      type: Object as () => IGame,
+      required: true
+    }
+  }
+};
 </script>
 
 <style scoped>
