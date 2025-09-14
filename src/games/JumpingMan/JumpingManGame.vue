@@ -72,6 +72,7 @@ interface Player extends GameObject {
 
 interface Obstacle extends GameObject {
   velocityX: number
+  type: 'cactus' | 'spike' | 'rock' | 'fire'
 }
 
 interface Coin extends GameObject {
@@ -100,6 +101,7 @@ const gameSpeed = ref(3)
 
 // 游戏循环计数器
 let frameCount = 0
+let lastObstacleX = 0 // 记录最后一个障碍物的位置
 
 // 音效相关
 let audioContext: AudioContext | null = null
@@ -165,6 +167,7 @@ const initGame = () => {
   level.value = 1
   gameSpeed.value = 3
   frameCount = 0
+  lastObstacleX = 0
   
   // 加载最高分
   const savedHighScore = localStorage.getItem('jumpingman-highscore')
@@ -234,16 +237,52 @@ const updatePlayer = () => {
 
 // 生成障碍物
 const spawnObstacle = () => {
-  if (Math.random() < 0.02 + level.value * 0.005) {
-    const height = 40 + Math.random() * 60
-    obstacles.value.push({
-      x: canvasWidth,
-      y: groundY - height,
-      width: 30,
-      height: height,
-      color: '#F44336',
-      velocityX: -gameSpeed.value
-    })
+  // 确保障碍物之间有足够的间距
+  const minDistance = 200 + Math.random() * 150 // 200-350像素的间距
+  
+  if (obstacles.value.length === 0 || 
+      (canvasWidth - lastObstacleX) >= minDistance) {
+    
+    // 降低生成频率，让游戏更公平
+    if (Math.random() < 0.6) {
+      const obstacleTypes: Array<'cactus' | 'spike' | 'rock' | 'fire'> = ['cactus', 'spike', 'rock', 'fire']
+      const type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)]
+      
+      let width = 30
+      let height = 40
+      
+      // 根据类型调整尺寸
+      switch (type) {
+        case 'cactus':
+          width = 25
+          height = 50 + Math.random() * 30
+          break
+        case 'spike':
+          width = 40
+          height = 30
+          break
+        case 'rock':
+          width = 35
+          height = 35 + Math.random() * 20
+          break
+        case 'fire':
+          width = 30
+          height = 35
+          break
+      }
+      
+      obstacles.value.push({
+        x: canvasWidth,
+        y: groundY - height,
+        width: width,
+        height: height,
+        color: '#F44336',
+        velocityX: -gameSpeed.value,
+        type: type
+      })
+      
+      lastObstacleX = canvasWidth
+    }
   }
 }
 
@@ -266,8 +305,19 @@ const spawnCoin = () => {
 const updateObstacles = () => {
   obstacles.value = obstacles.value.filter(obstacle => {
     obstacle.x += obstacle.velocityX
-    return obstacle.x + obstacle.width > 0
+    
+    // 当障碍物完全离开屏幕时，更新lastObstacleX
+    if (obstacle.x + obstacle.width < 0) {
+      lastObstacleX = Math.min(lastObstacleX, obstacle.x)
+      return false
+    }
+    return true
   })
+  
+  // 重置lastObstacleX如果没有障碍物了
+  if (obstacles.value.length === 0) {
+    lastObstacleX = 0
+  }
 }
 
 // 更新金币
@@ -374,8 +424,7 @@ const render = () => {
   
   // 绘制障碍物
   obstacles.value.forEach(obstacle => {
-    ctx.fillStyle = obstacle.color
-    ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height)
+    drawObstacle(obstacle)
   })
   
   // 绘制金币
@@ -503,6 +552,181 @@ const drawPlayer = () => {
   }
   
   ctx.restore()
+}
+
+// 绘制不同类型的障碍物
+const drawObstacle = (obstacle: Obstacle) => {
+  ctx.save()
+  
+  switch (obstacle.type) {
+    case 'cactus':
+      drawCactus(obstacle)
+      break
+    case 'spike':
+      drawSpike(obstacle)
+      break
+    case 'rock':
+      drawRock(obstacle)
+      break
+    case 'fire':
+      drawFire(obstacle)
+      break
+  }
+  
+  ctx.restore()
+}
+
+// 绘制仙人掌
+const drawCactus = (obstacle: Obstacle) => {
+  const x = obstacle.x
+  const y = obstacle.y
+  const w = obstacle.width
+  const h = obstacle.height
+  
+  // 主干
+  ctx.fillStyle = '#2E7D32'
+  ctx.fillRect(x + w/3, y, w/3, h)
+  
+  // 左侧分支
+  if (h > 40) {
+    ctx.fillRect(x, y + h/3, w/2, w/4)
+    ctx.fillRect(x, y + h/3, w/4, h/3)
+  }
+  
+  // 右侧分支
+  if (h > 50) {
+    ctx.fillRect(x + w/2, y + h/2, w/2, w/4)
+    ctx.fillRect(x + 3*w/4, y + h/2, w/4, h/4)
+  }
+  
+  // 刺
+  ctx.fillStyle = '#1B5E20'
+  for (let i = 0; i < h; i += 8) {
+    // 左侧刺
+    ctx.fillRect(x + w/3 - 2, y + i, 4, 2)
+    // 右侧刺
+    ctx.fillRect(x + 2*w/3 - 2, y + i, 4, 2)
+  }
+  
+  // 顶部花朵
+  ctx.fillStyle = '#E91E63'
+  ctx.beginPath()
+  ctx.arc(x + w/2, y - 3, 4, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+// 绘制尖刺陷阱
+const drawSpike = (obstacle: Obstacle) => {
+  const x = obstacle.x
+  const y = obstacle.y
+  const w = obstacle.width
+  const h = obstacle.height
+  
+  // 底座
+  ctx.fillStyle = '#424242'
+  ctx.fillRect(x, y + h - 8, w, 8)
+  
+  // 尖刺
+  ctx.fillStyle = '#616161'
+  const spikeCount = Math.floor(w / 8)
+  for (let i = 0; i < spikeCount; i++) {
+    const spikeX = x + i * (w / spikeCount)
+    const spikeW = w / spikeCount
+    
+    ctx.beginPath()
+    ctx.moveTo(spikeX, y + h - 8)
+    ctx.lineTo(spikeX + spikeW/2, y)
+    ctx.lineTo(spikeX + spikeW, y + h - 8)
+    ctx.closePath()
+    ctx.fill()
+    
+    // 尖刺高光
+    ctx.fillStyle = '#9E9E9E'
+    ctx.beginPath()
+    ctx.moveTo(spikeX + 2, y + h - 8)
+    ctx.lineTo(spikeX + spikeW/2, y + 3)
+    ctx.lineTo(spikeX + spikeW/2 + 1, y + 5)
+    ctx.closePath()
+    ctx.fill()
+    ctx.fillStyle = '#616161'
+  }
+}
+
+// 绘制岩石
+const drawRock = (obstacle: Obstacle) => {
+  const x = obstacle.x
+  const y = obstacle.y
+  const w = obstacle.width
+  const h = obstacle.height
+  
+  // 主体
+  ctx.fillStyle = '#5D4037'
+  ctx.beginPath()
+  ctx.ellipse(x + w/2, y + h/2, w/2, h/2, 0, 0, Math.PI * 2)
+  ctx.fill()
+  
+  // 阴影
+  ctx.fillStyle = '#3E2723'
+  ctx.beginPath()
+  ctx.ellipse(x + w/2 + 2, y + h/2 + 2, w/2 - 2, h/2 - 2, 0, 0, Math.PI * 2)
+  ctx.fill()
+  
+  // 高光
+  ctx.fillStyle = '#8D6E63'
+  ctx.beginPath()
+  ctx.ellipse(x + w/2 - 5, y + h/2 - 5, w/4, h/4, 0, 0, Math.PI * 2)
+  ctx.fill()
+  
+  // 裂纹
+  ctx.strokeStyle = '#3E2723'
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(x + w/4, y + h/3)
+  ctx.lineTo(x + 3*w/4, y + 2*h/3)
+  ctx.moveTo(x + 2*w/3, y + h/4)
+  ctx.lineTo(x + w/3, y + 3*h/4)
+  ctx.stroke()
+}
+
+// 绘制火焰
+const drawFire = (obstacle: Obstacle) => {
+  const x = obstacle.x
+  const y = obstacle.y
+  const w = obstacle.width
+  const h = obstacle.height
+  
+  // 火焰动画效果
+  const flameOffset = Math.sin(frameCount * 0.2) * 3
+  
+  // 底部
+  ctx.fillStyle = '#D84315'
+  ctx.fillRect(x + w/4, y + h - 8, w/2, 8)
+  
+  // 外层火焰
+  ctx.fillStyle = '#FF5722'
+  ctx.beginPath()
+  ctx.moveTo(x + w/2, y)
+  ctx.quadraticCurveTo(x + w + flameOffset, y + h/3, x + 3*w/4, y + 2*h/3)
+  ctx.quadraticCurveTo(x + w/2, y + h, x + w/4, y + 2*h/3)
+  ctx.quadraticCurveTo(x - flameOffset, y + h/3, x + w/2, y)
+  ctx.fill()
+  
+  // 中层火焰
+  ctx.fillStyle = '#FF9800'
+  ctx.beginPath()
+  ctx.moveTo(x + w/2, y + 5)
+  ctx.quadraticCurveTo(x + 3*w/4 + flameOffset/2, y + h/2, x + 2*w/3, y + 2*h/3)
+  ctx.quadraticCurveTo(x + w/2, y + h - 5, x + w/3, y + 2*h/3)
+  ctx.quadraticCurveTo(x + w/4 - flameOffset/2, y + h/2, x + w/2, y + 5)
+  ctx.fill()
+  
+  // 内层火焰
+  ctx.fillStyle = '#FFC107'
+  ctx.beginPath()
+  ctx.moveTo(x + w/2, y + 10)
+  ctx.quadraticCurveTo(x + 3*w/5, y + h/2, x + w/2, y + h - 10)
+  ctx.quadraticCurveTo(x + 2*w/5, y + h/2, x + w/2, y + 10)
+  ctx.fill()
 }
 
 // 游戏结束
