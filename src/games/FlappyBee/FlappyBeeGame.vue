@@ -491,7 +491,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+  background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
   font-family: 'Arial', sans-serif;
   overflow: hidden;
 }
@@ -502,7 +502,7 @@ onUnmounted(() => {
 
 .game-canvas {
   background-color: #74b9ff;
-  border: 4px solid #2d3436;
+  border: 4px solid #00b894;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   cursor: pointer;
@@ -558,7 +558,7 @@ onUnmounted(() => {
 
 .start-screen h1,
 .game-over-screen h1 {
-  color: #fdcb6e;
+  color: #00b894;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-size: 2.5rem;
@@ -577,19 +577,19 @@ onUnmounted(() => {
 }
 
 .final-score {
-  color: #fdcb6e;
+  color: #00b894;
   font-weight: bold;
   font-size: 1.3em;
 }
 
 .game-btn {
-  background: linear-gradient(to bottom, #fdcb6e, #f0b64d);
+  background: linear-gradient(to bottom, #00b894, #00a085);
   border: none;
   border-radius: 25px;
   padding: 15px 30px;
   font-size: 18px;
   font-weight: bold;
-  color: #2d3436;
+  color: white;
   cursor: pointer;
   margin: 20px 10px 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -599,6 +599,7 @@ onUnmounted(() => {
 .game-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to bottom, #00a085, #00b894);
 }
 
 .game-btn:active {

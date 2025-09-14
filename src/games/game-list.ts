@@ -5,7 +5,7 @@ export const GAME_LIST: IGame[] = [
     title: 'Flappy Bee',
     description: '挑战你的反应极限！操控小蜜蜂穿越障碍。',
     tags: ['h5game', '反应'],
-    thumbnail: '/src/assets/games/flappy-bee/thumbnail.png',
+    thumbnail: '/src/assets/games/flappy-bee/thumbnail.svg',
     route: '/game/flappy-bee',
     component: () => import('@/games/FlappyBee/FlappyBeeGame.vue')
   },
