@@ -62,5 +62,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/2048/thumbnail.svg',
     route: '/game/2048',
     component: () => import('@/games/Game2048/Game2048.vue')
+  },
+  {
+    id: 'link-game',
+    title: '连连看',
+    description: '经典连连看游戏！找到相同图案，用不超过3条直线连接消除！',
+    tags: ['h5game', '益智', '消除', '经典'],
+    thumbnail: '/src/assets/games/link-game/thumbnail.svg',
+    route: '/game/link-game',
+    component: () => import('@/games/LinkGame/LinkGame.vue')
   }
 ];
