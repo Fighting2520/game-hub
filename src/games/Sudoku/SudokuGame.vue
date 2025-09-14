@@ -146,7 +146,7 @@
         <div class="game-controls">
           <div class="control-group">
             <button @click="toggleNotes" class="notes-btn" :class="{ active: notesMode }">
-              📝 笔记模式
+              📝 {{ notesMode ? '笔记模式 ✓' : '笔记模式' }}
             </button>
             <button @click="toggleShowNotes" class="show-notes-btn" :class="{ active: showNotes }">
               👁️ 显示笔记
@@ -1270,6 +1270,9 @@ onUnmounted(() => {
 .notes-btn.active,
 .show-notes-btn.active {
   background: linear-gradient(135deg, #7B1FA2, #9C27B0);
+  box-shadow: 0 0 15px rgba(156, 39, 176, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
 .hint-btn {
