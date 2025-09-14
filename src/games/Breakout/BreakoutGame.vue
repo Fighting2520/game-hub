@@ -336,14 +336,29 @@ const updateBall = () => {
   
   // 挡板碰撞检测
   if (checkBallPaddleCollision()) {
-    // 计算球相对于挡板中心的位置
+    // 基本反射：垂直分量反向，水平分量保持
+    ballObj.dy = -Math.abs(ballObj.dy); // 确保向上反弹
+    
+    // 根据击中位置添加水平偏移（增加游戏可控性）
     const paddleCenter = paddle.value.x + paddle.value.width / 2;
     const hitPos = (ballObj.x - paddleCenter) / (paddle.value.width / 2);
+    const clampedHitPos = Math.max(-1, Math.min(1, hitPos));
     
-    // 根据击中位置调整反弹角度
-    const angle = hitPos * Math.PI / 3; // 最大60度角
-    ballObj.dx = Math.sin(angle) * ballObj.speed;
-    ballObj.dy = -Math.abs(Math.cos(angle) * ballObj.speed); // 确保向上
+    // 添加基于击中位置的水平速度调整
+    const horizontalInfluence = clampedHitPos * ballObj.speed * 0.3; // 30% 的影响
+    ballObj.dx = ballObj.dx * 0.7 + horizontalInfluence; // 保留70%原方向 + 30%新影响
+    
+    // 限制最大水平速度，确保球不会过于水平
+    const maxHorizontalSpeed = ballObj.speed * 0.8;
+    ballObj.dx = Math.max(-maxHorizontalSpeed, Math.min(maxHorizontalSpeed, ballObj.dx));
+    
+    // 重新计算垂直速度以保持总速度
+    const currentHorizontalSpeed = Math.abs(ballObj.dx);
+    const verticalSpeed = Math.sqrt(ballObj.speed * ballObj.speed - currentHorizontalSpeed * currentHorizontalSpeed);
+    ballObj.dy = -verticalSpeed; // 向上
+    
+    // 确保球不会卡在挡板里
+    ballObj.y = paddle.value.y - ballObj.radius - 1;
     
     playPaddleHitSound();
   }
