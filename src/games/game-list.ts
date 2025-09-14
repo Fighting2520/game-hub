@@ -53,5 +53,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/catch-game/thumbnail.svg',
     route: '/game/catch-game',
     component: () => import('@/games/CatchGame/CatchGame.vue')
+  },
+  {
+    id: '2048',
+    title: '2048',
+    description: '经典数字合并游戏！滑动方块合并相同数字，挑战2048！',
+    tags: ['h5game', '益智', '策略', '经典'],
+    thumbnail: '/src/assets/games/2048/thumbnail.svg',
+    route: '/game/2048',
+    component: () => import('@/games/Game2048/Game2048.vue')
   }
 ];

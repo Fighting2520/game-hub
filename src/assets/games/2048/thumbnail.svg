@@ -1,0 +1,102 @@
+<svg width="200" height="150" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景渐变 -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffeaa7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fab1a0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="200" height="150" fill="url(#bgGradient)"/>
+  
+  <!-- 游戏网格背景 -->
+  <rect x="50" y="25" width="100" height="100" rx="8" fill="rgba(187, 173, 160, 0.8)"/>
+  
+  <!-- 网格单元格 -->
+  <g fill="rgba(238, 228, 218, 0.35)">
+    <!-- 第一行 -->
+    <rect x="55" y="30" width="20" height="20" rx="3"/>
+    <rect x="80" y="30" width="20" height="20" rx="3"/>
+    <rect x="105" y="30" width="20" height="20" rx="3"/>
+    <rect x="130" y="30" width="20" height="20" rx="3"/>
+    
+    <!-- 第二行 -->
+    <rect x="55" y="55" width="20" height="20" rx="3"/>
+    <rect x="80" y="55" width="20" height="20" rx="3"/>
+    <rect x="105" y="55" width="20" height="20" rx="3"/>
+    <rect x="130" y="55" width="20" height="20" rx="3"/>
+    
+    <!-- 第三行 -->
+    <rect x="55" y="80" width="20" height="20" rx="3"/>
+    <rect x="80" y="80" width="20" height="20" rx="3"/>
+    <rect x="105" y="80" width="20" height="20" rx="3"/>
+    <rect x="130" y="80" width="20" height="20" rx="3"/>
+    
+    <!-- 第四行 -->
+    <rect x="55" y="105" width="20" height="20" rx="3"/>
+    <rect x="80" y="105" width="20" height="20" rx="3"/>
+    <rect x="105" y="105" width="20" height="20" rx="3"/>
+    <rect x="130" y="105" width="20" height="20" rx="3"/>
+  </g>
+  
+  <!-- 数字方块 -->
+  <!-- 2 -->
+  <rect x="55" y="30" width="20" height="20" rx="3" fill="#eee4da"/>
+  <text x="65" y="43" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#776e65">2</text>
+  
+  <!-- 4 -->
+  <rect x="105" y="30" width="20" height="20" rx="3" fill="#ede0c8"/>
+  <text x="115" y="43" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#776e65">4</text>
+  
+  <!-- 8 -->
+  <rect x="80" y="55" width="20" height="20" rx="3" fill="#f2b179"/>
+  <text x="90" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f9f6f2">8</text>
+  
+  <!-- 16 -->
+  <rect x="130" y="55" width="20" height="20" rx="3" fill="#f59563"/>
+  <text x="140" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f9f6f2">16</text>
+  
+  <!-- 32 -->
+  <rect x="55" y="80" width="20" height="20" rx="3" fill="#f67c5f"/>
+  <text x="65" y="93" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f9f6f2">32</text>
+  
+  <!-- 64 -->
+  <rect x="105" y="80" width="20" height="20" rx="3" fill="#f65e3b"/>
+  <text x="115" y="93" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f9f6f2">64</text>
+  
+  <!-- 128 -->
+  <rect x="80" y="105" width="20" height="20" rx="3" fill="#edcf72"/>
+  <text x="90" y="118" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#f9f6f2">128</text>
+  
+  <!-- 2048 (目标方块，带光效) -->
+  <rect x="130" y="105" width="20" height="20" rx="3" fill="#edc22e"/>
+  <rect x="130" y="105" width="20" height="20" rx="3" fill="rgba(237, 194, 46, 0.3)" stroke="rgba(237, 194, 46, 0.8)" stroke-width="1"/>
+  <text x="140" y="118" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" font-weight="bold" fill="#f9f6f2">2048</text>
+  
+  <!-- 分数显示 -->
+  <rect x="160" y="30" width="35" height="25" rx="5" fill="rgba(255, 255, 255, 0.3)"/>
+  <text x="177" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#333">得分</text>
+  <text x="177" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2d3436">12580</text>
+  
+  <!-- 方向箭头提示 -->
+  <g stroke="#666" stroke-width="2" fill="none" opacity="0.6">
+    <!-- 上箭头 -->
+    <path d="M 25 70 L 25 60 M 20 65 L 25 60 L 30 65"/>
+    <!-- 下箭头 -->
+    <path d="M 25 90 L 25 100 M 20 95 L 25 100 L 30 95"/>
+    <!-- 左箭头 -->
+    <path d="M 15 80 L 5 80 M 10 75 L 5 80 L 10 85"/>
+    <!-- 右箭头 -->
+    <path d="M 35 80 L 45 80 M 40 75 L 45 80 L 40 85"/>
+  </g>
+  
+  <!-- 移动轨迹线 -->
+  <g stroke="rgba(255, 255, 255, 0.4)" stroke-width="1" fill="none" opacity="0.7">
+    <path d="M 65 40 Q 70 45 75 50"/>
+    <path d="M 115 40 Q 120 45 125 50"/>
+    <path d="M 90 65 Q 95 70 100 75"/>
+  </g>
+  
+  <!-- 游戏标题 -->
+  <text x="100" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2d3436">2048</text>
+</svg>
