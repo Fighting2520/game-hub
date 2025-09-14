@@ -116,5 +116,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/gomoku/thumbnail.svg',
     route: '/game/gomoku',
     component: () => import('@/games/Gomoku/GomokuGame.vue')
+  },
+  {
+    id: 'sokoban',
+    title: '推箱子',
+    description: '经典推箱子游戏！推动所有箱子到目标位置，挑战你的空间思维！',
+    tags: ['h5game', '益智', '推理', '经典'],
+    thumbnail: '/src/assets/games/sokoban/thumbnail.svg',
+    route: '/game/sokoban',
+    component: () => import('@/games/Sokoban/SokobanGame.vue')
   }
 ];
