@@ -35,5 +35,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/breakout/thumbnail.svg',
     route: '/game/breakout',
     component: () => import('@/games/Breakout/BreakoutGame.vue')
+  },
+  {
+    id: 'jumping-man',
+    title: '跳跃小人',
+    description: '控制小人跳跃躲避障碍物，收集金币获得高分！',
+    tags: ['h5game', '跳跃', '反应', '技巧'],
+    thumbnail: '/src/assets/games/jumping-man/thumbnail.svg',
+    route: '/game/jumping-man',
+    component: () => import('@/games/JumpingMan/JumpingManGame.vue')
   }
 ];
