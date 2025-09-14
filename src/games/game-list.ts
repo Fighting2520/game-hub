@@ -17,5 +17,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/snake/thumbnail.svg',
     route: '/game/snake',
     component: () => import('@/games/Snake/SnakeGame.vue')
+  },
+  {
+    id: 'tetris',
+    title: '俄罗斯方块',
+    description: '经典俄罗斯方块！旋转和移动方块，消除整行获得高分。',
+    tags: ['h5game', '经典', '益智', '策略'],
+    thumbnail: '/src/assets/games/tetris/thumbnail.svg',
+    route: '/game/tetris',
+    component: () => import('@/games/Tetris/TetrisGame.vue')
   }
 ];

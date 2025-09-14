@@ -1,0 +1,67 @@
+<svg width="200" height="160" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="200" height="160" fill="#2d3436"/>
+  
+  <!-- 游戏区域边框 -->
+  <rect x="60" y="20" width="80" height="120" fill="none" stroke="#00b894" stroke-width="2"/>
+  
+  <!-- 网格线 -->
+  <defs>
+    <pattern id="tetrisGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+      <path d="M 8 0 L 0 0 0 8" fill="none" stroke="#636e72" stroke-width="0.3"/>
+    </pattern>
+  </defs>
+  <rect x="60" y="20" width="80" height="120" fill="url(#tetrisGrid)"/>
+  
+  <!-- 已放置的方块 -->
+  <!-- 底部几行 -->
+  <rect x="68" y="124" width="8" height="8" fill="#e17055" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="76" y="124" width="8" height="8" fill="#fdcb6e" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="84" y="124" width="8" height="8" fill="#a29bfe" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="92" y="124" width="8" height="8" fill="#fd79a8" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="100" y="124" width="8" height="8" fill="#00b894" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="108" y="124" width="8" height="8" fill="#74b9ff" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="116" y="124" width="8" height="8" fill="#55efc4" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="124" y="124" width="8" height="8" fill="#e17055" stroke="#2d3436" stroke-width="0.5"/>
+  
+  <rect x="68" y="116" width="8" height="8" fill="#74b9ff" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="84" y="116" width="8" height="8" fill="#fd79a8" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="92" y="116" width="8" height="8" fill="#55efc4" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="100" y="116" width="8" height="8" fill="#fdcb6e" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="116" y="116" width="8" height="8" fill="#a29bfe" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="124" y="116" width="8" height="8" fill="#00b894" stroke="#2d3436" stroke-width="0.5"/>
+  
+  <rect x="76" y="108" width="8" height="8" fill="#55efc4" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="84" y="108" width="8" height="8" fill="#e17055" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="108" y="108" width="8" height="8" fill="#fdcb6e" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="116" y="108" width="8" height="8" fill="#74b9ff" stroke="#2d3436" stroke-width="0.5"/>
+  
+  <!-- 正在下落的T形方块 -->
+  <rect x="92" y="60" width="8" height="8" fill="#fd79a8" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="84" y="68" width="8" height="8" fill="#fd79a8" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="92" y="68" width="8" height="8" fill="#fd79a8" stroke="#2d3436" stroke-width="0.5"/>
+  <rect x="100" y="68" width="8" height="8" fill="#fd79a8" stroke="#2d3436" stroke-width="0.5"/>
+  
+  <!-- 下一个方块预览区 -->
+  <rect x="150" y="30" width="32" height="24" fill="none" stroke="#636e72" stroke-width="1"/>
+  <text x="166" y="25" text-anchor="middle" fill="#636e72" font-family="Arial, sans-serif" font-size="8">NEXT</text>
+  
+  <!-- 下一个方块 (L形) -->
+  <rect x="154" y="34" width="4" height="4" fill="#74b9ff" stroke="#2d3436" stroke-width="0.3"/>
+  <rect x="154" y="38" width="4" height="4" fill="#74b9ff" stroke="#2d3436" stroke-width="0.3"/>
+  <rect x="154" y="42" width="4" height="4" fill="#74b9ff" stroke="#2d3436" stroke-width="0.3"/>
+  <rect x="158" y="42" width="4" height="4" fill="#74b9ff" stroke="#2d3436" stroke-width="0.3"/>
+  
+  <!-- 分数区域 -->
+  <text x="166" y="70" text-anchor="middle" fill="#636e72" font-family="Arial, sans-serif" font-size="8">SCORE</text>
+  <text x="166" y="82" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">1250</text>
+  
+  <text x="166" y="100" text-anchor="middle" fill="#636e72" font-family="Arial, sans-serif" font-size="8">LEVEL</text>
+  <text x="166" y="112" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">3</text>
+  
+  <!-- 标题 -->
+  <text x="100" y="15" text-anchor="middle" fill="#00b894" font-family="Arial, sans-serif" font-size="16" font-weight="bold">🧩 俄罗斯方块</text>
+  
+  <!-- 底部提示 -->
+  <text x="100" y="152" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">Lines: 12</text>
+</svg>
