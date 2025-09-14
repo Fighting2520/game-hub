@@ -1,0 +1,34 @@
+<svg width="200" height="160" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="200" height="160" fill="#2d3436"/>
+  
+  <!-- 网格线 -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#636e72" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="160" fill="url(#grid)"/>
+  
+  <!-- 蛇身体 -->
+  <rect x="61" y="61" width="18" height="18" fill="#55efc4" rx="2"/>
+  <rect x="81" y="61" width="18" height="18" fill="#55efc4" rx="2"/>
+  <rect x="101" y="61" width="18" height="18" fill="#55efc4" rx="2"/>
+  <rect x="121" y="61" width="18" height="18" fill="#55efc4" rx="2"/>
+  
+  <!-- 蛇头 -->
+  <rect x="141" y="61" width="18" height="18" fill="#00b894" rx="2"/>
+  
+  <!-- 蛇眼睛 -->
+  <circle cx="148" cy="66" r="2" fill="#2d3436"/>
+  <circle cx="154" cy="66" r="2" fill="#2d3436"/>
+  
+  <!-- 食物 -->
+  <rect x="161" y="81" width="16" height="16" fill="#e17055" rx="2"/>
+  
+  <!-- 标题 -->
+  <text x="100" y="25" text-anchor="middle" fill="#00b894" font-family="Arial, sans-serif" font-size="18" font-weight="bold">🐍 贪吃蛇</text>
+  
+  <!-- 分数显示 -->
+  <text x="100" y="145" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">Score: 40</text>
+</svg>
