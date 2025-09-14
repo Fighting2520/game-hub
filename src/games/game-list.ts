@@ -80,5 +80,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/number-guessing/thumbnail.svg',
     route: '/game/number-guessing',
     component: () => import('@/games/NumberGuessing/NumberGuessingGame.vue')
+  },
+  {
+    id: 'memory-card',
+    title: '记忆翻牌',
+    description: '经典记忆翻牌游戏！翻开卡牌找到相同配对，挑战你的记忆力！',
+    tags: ['h5game', '记忆', '益智', '经典'],
+    thumbnail: '/src/assets/games/memory-card/thumbnail.svg',
+    route: '/game/memory-card',
+    component: () => import('@/games/MemoryCard/MemoryCardGame.vue')
   }
 ];

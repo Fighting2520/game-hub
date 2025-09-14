@@ -450,7 +450,7 @@ const makeGuess = () => {
 
 // 给出提示
 const giveHint = () => {
-  if (hintsUsed.value >= maxHints || gameState.value !== 'playing') return
+  if (hintsUsed.value >= maxHints.value || gameState.value !== 'playing') return
   
   hintsUsed.value++
   playHintSound()
