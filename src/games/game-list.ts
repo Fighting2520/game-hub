@@ -125,5 +125,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/sokoban/thumbnail.svg',
     route: '/game/sokoban',
     component: () => import('@/games/Sokoban/SokobanGame.vue')
+  },
+  {
+    id: 'space-invaders',
+    title: '太空入侵者',
+    description: '经典街机射击游戏！消灭外星入侵者保卫地球，挑战高分！',
+    tags: ['h5game', '射击', '街机', '经典'],
+    thumbnail: '/src/assets/games/space-invaders/thumbnail.svg',
+    route: '/game/space-invaders',
+    component: () => import('@/games/SpaceInvaders/SpaceInvadersGame.vue')
   }
 ];

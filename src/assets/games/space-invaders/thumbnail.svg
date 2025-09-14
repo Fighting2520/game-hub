@@ -1,0 +1,117 @@
+<svg width="200" height="150" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="spaceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#16213e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f3460;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="playerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00ccff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="enemyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff8888;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 太空背景 -->
+  <rect width="200" height="150" fill="url(#spaceGradient)"/>
+  
+  <!-- 星星背景 -->
+  <circle cx="20" cy="20" r="1" fill="white" opacity="0.8"/>
+  <circle cx="50" cy="15" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="80" cy="25" r="1" fill="white" opacity="0.9"/>
+  <circle cx="120" cy="18" r="1" fill="white" opacity="0.7"/>
+  <circle cx="160" cy="22" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="180" cy="12" r="1" fill="white" opacity="0.6"/>
+  <circle cx="30" cy="40" r="1" fill="white" opacity="0.5"/>
+  <circle cx="70" cy="45" r="1" fill="white" opacity="0.8"/>
+  <circle cx="110" cy="35" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="150" cy="42" r="1" fill="white" opacity="0.9"/>
+  
+  <!-- 敌人外星人 (第一排) -->
+  <g transform="translate(30, 50)">
+    <rect x="0" y="0" width="20" height="15" fill="url(#enemyGradient)" rx="2"/>
+    <rect x="3" y="3" width="3" height="3" fill="white"/>
+    <rect x="14" y="3" width="3" height="3" fill="white"/>
+    <rect x="8" y="8" width="4" height="2" fill="white"/>
+  </g>
+  
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="20" height="15" fill="#ffff00" rx="2"/>
+    <rect x="3" y="3" width="3" height="3" fill="white"/>
+    <rect x="14" y="3" width="3" height="3" fill="white"/>
+    <rect x="8" y="8" width="4" height="2" fill="white"/>
+  </g>
+  
+  <g transform="translate(90, 50)">
+    <rect x="0" y="0" width="20" height="15" fill="#00ffff" rx="2"/>
+    <rect x="3" y="3" width="3" height="3" fill="white"/>
+    <rect x="14" y="3" width="3" height="3" fill="white"/>
+    <rect x="8" y="8" width="4" height="2" fill="white"/>
+  </g>
+  
+  <g transform="translate(120, 50)">
+    <rect x="0" y="0" width="20" height="15" fill="url(#enemyGradient)" rx="2"/>
+    <rect x="3" y="3" width="3" height="3" fill="white"/>
+    <rect x="14" y="3" width="3" height="3" fill="white"/>
+    <rect x="8" y="8" width="4" height="2" fill="white"/>
+  </g>
+  
+  <!-- 敌人外星人 (第二排) -->
+  <g transform="translate(45, 70)">
+    <rect x="0" y="0" width="20" height="15" fill="#ffff00" rx="2"/>
+    <rect x="3" y="3" width="3" height="3" fill="white"/>
+    <rect x="14" y="3" width="3" height="3" fill="white"/>
+    <rect x="8" y="8" width="4" height="2" fill="white"/>
+  </g>
+  
+  <g transform="translate(75, 70)">
+    <rect x="0" y="0" width="20" height="15" fill="#00ffff" rx="2"/>
+    <rect x="3" y="3" width="3" height="3" fill="white"/>
+    <rect x="14" y="3" width="3" height="3" fill="white"/>
+    <rect x="8" y="8" width="4" height="2" fill="white"/>
+  </g>
+  
+  <g transform="translate(105, 70)">
+    <rect x="0" y="0" width="20" height="15" fill="#ffff00" rx="2"/>
+    <rect x="3" y="3" width="3" height="3" fill="white"/>
+    <rect x="14" y="3" width="3" height="3" fill="white"/>
+    <rect x="8" y="8" width="4" height="2" fill="white"/>
+  </g>
+  
+  <!-- 玩家飞船 -->
+  <g transform="translate(85, 120)">
+    <rect x="0" y="0" width="30" height="18" fill="url(#playerGradient)" rx="3"/>
+    <rect x="12" y="-3" width="6" height="3" fill="white"/>
+    <rect x="5" y="5" width="4" height="4" fill="white"/>
+    <rect x="21" y="5" width="4" height="4" fill="white"/>
+    <rect x="13" y="10" width="4" height="3" fill="white"/>
+  </g>
+  
+  <!-- 子弹效果 -->
+  <rect x="97" y="100" width="2" height="8" fill="#ffff00"/>
+  <rect x="97" y="90" width="2" height="8" fill="#ffff00"/>
+  <rect x="97" y="80" width="2" height="8" fill="#ffff00"/>
+  
+  <!-- 敌人子弹 -->
+  <rect x="67" y="95" width="2" height="6" fill="#ff4444"/>
+  <rect x="127" y="105" width="2" height="6" fill="#ff4444"/>
+  
+  <!-- 掩体 -->
+  <rect x="40" y="105" width="15" height="12" fill="#00ff00" opacity="0.7" rx="2"/>
+  <rect x="145" y="105" width="15" height="12" fill="#00ff00" opacity="0.7" rx="2"/>
+  
+  <!-- 爆炸效果 -->
+  <g transform="translate(150, 50)" opacity="0.8">
+    <circle cx="10" cy="8" r="3" fill="#ff6600"/>
+    <circle cx="8" cy="6" r="2" fill="#ffaa00"/>
+    <circle cx="12" cy="10" r="2" fill="#ffaa00"/>
+    <circle cx="10" cy="8" r="1" fill="#ffffff"/>
+  </g>
+  
+  <!-- 游戏标题文字效果 -->
+  <text x="100" y="25" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold" opacity="0.9">SPACE</text>
+  <text x="100" y="38" text-anchor="middle" fill="#00ffff" font-family="Arial, sans-serif" font-size="12" font-weight="bold" opacity="0.9">INVADERS</text>
+</svg>
