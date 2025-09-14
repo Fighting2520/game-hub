@@ -107,6 +107,8 @@ const initAudio = () => {
     
     // 创建背景音乐
     bgMusic = new Audio();
+    // 使用public目录中的静态资源
+    bgMusic.src = '/assets/games/flappy-bee/bgm.mp3';
     bgMusic.loop = true;
     bgMusic.volume = 0.3;
     
