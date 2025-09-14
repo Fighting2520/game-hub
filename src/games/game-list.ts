@@ -26,5 +26,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/tetris/thumbnail.svg',
     route: '/game/tetris',
     component: () => import('@/games/Tetris/TetrisGame.vue')
+  },
+  {
+    id: 'breakout',
+    title: '打砖块',
+    description: '经典打砖块游戏！控制挡板反弹球，打破所有砖块。',
+    tags: ['h5game', '经典', '反应', '技巧'],
+    thumbnail: '/src/assets/games/breakout/thumbnail.svg',
+    route: '/game/breakout',
+    component: () => import('@/games/Breakout/BreakoutGame.vue')
   }
 ];
