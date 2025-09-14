@@ -71,5 +71,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/link-game/thumbnail.svg',
     route: '/game/link-game',
     component: () => import('@/games/LinkGame/LinkGame.vue')
+  },
+  {
+    id: 'number-guessing',
+    title: '猜数字',
+    description: '经典猜数字游戏！在有限次数内猜出神秘数字，挑战你的逻辑思维！',
+    tags: ['h5game', '益智', '逻辑', '经典'],
+    thumbnail: '/src/assets/games/number-guessing/thumbnail.svg',
+    route: '/game/number-guessing',
+    component: () => import('@/games/NumberGuessing/NumberGuessingGame.vue')
   }
 ];
