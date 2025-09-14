@@ -103,6 +103,13 @@ const gameSpeed = ref(3)
 let frameCount = 0
 let lastObstacleX = 0 // 记录最后一个障碍物的位置
 
+// 碰撞反馈相关
+let isHit = false
+let hitTimer = 0
+let invulnerableTimer = 0
+const hitDuration = 60 // 碰撞效果持续帧数
+const invulnerableDuration = 120 // 无敌时间帧数
+
 // 音效相关
 let audioContext: AudioContext | null = null
 
@@ -168,6 +175,11 @@ const initGame = () => {
   gameSpeed.value = 3
   frameCount = 0
   lastObstacleX = 0
+  
+  // 重置碰撞效果
+  isHit = false
+  hitTimer = 0
+  invulnerableTimer = 0
   
   // 加载最高分
   const savedHighScore = localStorage.getItem('jumpingman-highscore')
@@ -335,28 +347,30 @@ const updateCoins = () => {
 const checkCollisions = () => {
   const p = player.value
   
-  // 检查障碍物碰撞
-  for (const obstacle of obstacles.value) {
-    if (p.x < obstacle.x + obstacle.width &&
-        p.x + p.width > obstacle.x &&
-        p.y < obstacle.y + obstacle.height &&
-        p.y + p.height > obstacle.y) {
-      
-      lives.value--
-      playHitSound()
-      
-      // 击退效果
-      player.value.x -= 20
-      if (player.value.x < 0) player.value.x = 0
-      
-      // 移除碰撞的障碍物
-      obstacles.value = obstacles.value.filter(obs => obs !== obstacle)
-      
-      if (lives.value <= 0) {
-        gameOver()
-        return
+  // 如果在无敌时间内，跳过障碍物碰撞检测
+  if (invulnerableTimer <= 0) {
+    // 检查障碍物碰撞
+    for (const obstacle of obstacles.value) {
+      if (p.x < obstacle.x + obstacle.width &&
+          p.x + p.width > obstacle.x &&
+          p.y < obstacle.y + obstacle.height &&
+          p.y + p.height > obstacle.y) {
+        
+        // 触发碰撞效果
+        triggerHit()
+        
+        // 移除碰撞的障碍物
+        obstacles.value = obstacles.value.filter(obs => obs !== obstacle)
+        
+        if (lives.value <= 0) {
+          // 延迟游戏结束，让玩家看到死亡效果
+          setTimeout(() => {
+            gameOver()
+          }, 1000)
+          return
+        }
+        break
       }
-      break
     }
   }
   
@@ -375,9 +389,47 @@ const checkCollisions = () => {
   }
 }
 
+// 触发碰撞效果
+const triggerHit = () => {
+  lives.value--
+  isHit = true
+  hitTimer = hitDuration
+  invulnerableTimer = invulnerableDuration
+  
+  // 播放碰撞音效
+  playHitSound()
+  
+  // 击退效果
+  player.value.x -= 30
+  if (player.value.x < 0) player.value.x = 0
+  
+  // 向上弹跳效果
+  if (player.value.isOnGround) {
+    player.value.velocityY = jumpPower * 0.7
+    player.value.isOnGround = false
+  }
+  
+  // 屏幕震动效果
+  if (navigator.vibrate) {
+    navigator.vibrate(200)
+  }
+}
+
 // 更新游戏逻辑
 const updateGame = () => {
   frameCount++
+  
+  // 更新碰撞效果计时器
+  if (hitTimer > 0) {
+    hitTimer--
+    if (hitTimer <= 0) {
+      isHit = false
+    }
+  }
+  
+  if (invulnerableTimer > 0) {
+    invulnerableTimer--
+  }
   
   updatePlayer()
   spawnObstacle()
@@ -404,6 +456,14 @@ const updateGame = () => {
 
 // 渲染游戏
 const render = () => {
+  // 碰撞时的屏幕效果
+  if (isHit) {
+    // 红色闪烁效果
+    const flashIntensity = Math.sin(hitTimer * 0.5) * 0.3 + 0.3
+    ctx.fillStyle = `rgba(255, 0, 0, ${flashIntensity})`
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+  }
+  
   // 清空画布
   ctx.fillStyle = '#87CEEB'
   ctx.fillRect(0, 0, canvasWidth, canvasHeight)
@@ -442,6 +502,16 @@ const render = () => {
       ctx.fill()
     }
   })
+  
+  // 绘制碰撞效果
+  if (isHit) {
+    drawHitEffect()
+  }
+  
+  // 绘制生命值损失提示
+  if (hitTimer > hitDuration - 30) {
+    drawLifeLossIndicator()
+  }
 }
 
 // 绘制云朵
@@ -478,63 +548,87 @@ const drawPlayer = () => {
   
   ctx.save()
   
+  // 无敌时间闪烁效果
+  if (invulnerableTimer > 0 && Math.floor(invulnerableTimer / 5) % 2 === 0) {
+    ctx.globalAlpha = 0.5
+  }
+  
+  // 碰撞时的震动效果
+  let offsetX = 0
+  let offsetY = 0
+  if (isHit) {
+    offsetX = (Math.random() - 0.5) * 4
+    offsetY = (Math.random() - 0.5) * 4
+  }
+  
+  // 身体颜色根据状态改变
+  let bodyColor = '#4CAF50'
+  if (isHit) {
+    bodyColor = '#F44336' // 碰撞时变红
+  } else if (invulnerableTimer > 0) {
+    bodyColor = '#FF9800' // 无敌时变橙
+  }
+  
   // 身体
-  ctx.fillStyle = '#4CAF50'
-  ctx.fillRect(p.x + 10, p.y + 15, 20, 20)
+  ctx.fillStyle = bodyColor
+  ctx.fillRect(p.x + 10 + offsetX, p.y + 15 + offsetY, 20, 20)
   
   // 头部
   ctx.beginPath()
-  ctx.arc(centerX, p.y + 12, 12, 0, Math.PI * 2)
+  ctx.arc(centerX + offsetX, p.y + 12 + offsetY, 12, 0, Math.PI * 2)
   ctx.fill()
   
   // 眼睛
   ctx.fillStyle = '#000'
   ctx.beginPath()
-  ctx.arc(centerX - 4, p.y + 9, 2, 0, Math.PI * 2)
+  ctx.arc(centerX - 4 + offsetX, p.y + 9 + offsetY, 2, 0, Math.PI * 2)
   ctx.fill()
   ctx.beginPath()
-  ctx.arc(centerX + 4, p.y + 9, 2, 0, Math.PI * 2)
+  ctx.arc(centerX + 4 + offsetX, p.y + 9 + offsetY, 2, 0, Math.PI * 2)
   ctx.fill()
   
-  // 嘴巴 (根据跳跃状态改变表情)
+  // 嘴巴 (根据状态改变表情)
   ctx.strokeStyle = '#000'
   ctx.lineWidth = 1.5
   ctx.beginPath()
-  if (isJumping) {
+  if (isHit) {
+    // 碰撞时痛苦表情
+    ctx.arc(centerX + offsetX, p.y + 16 + offsetY, 3, Math.PI, 0)
+  } else if (isJumping) {
     // 跳跃时开心的表情
-    ctx.arc(centerX, p.y + 14, 4, 0, Math.PI)
+    ctx.arc(centerX + offsetX, p.y + 14 + offsetY, 4, 0, Math.PI)
   } else {
     // 正常表情
-    ctx.moveTo(centerX - 3, p.y + 15)
-    ctx.quadraticCurveTo(centerX, p.y + 17, centerX + 3, p.y + 15)
+    ctx.moveTo(centerX - 3 + offsetX, p.y + 15 + offsetY)
+    ctx.quadraticCurveTo(centerX + offsetX, p.y + 17 + offsetY, centerX + 3 + offsetX, p.y + 15 + offsetY)
   }
   ctx.stroke()
   
   // 左手臂
-  ctx.fillStyle = '#4CAF50'
+  ctx.fillStyle = bodyColor
   ctx.save()
-  ctx.translate(p.x + 8, p.y + 20)
+  ctx.translate(p.x + 8 + offsetX, p.y + 20 + offsetY)
   ctx.rotate((armAngle * Math.PI) / 180)
   ctx.fillRect(-2, -2, 12, 4)
   ctx.restore()
   
   // 右手臂
   ctx.save()
-  ctx.translate(p.x + 32, p.y + 20)
+  ctx.translate(p.x + 32 + offsetX, p.y + 20 + offsetY)
   ctx.rotate((-armAngle * Math.PI) / 180)
   ctx.fillRect(-10, -2, 12, 4)
   ctx.restore()
   
   // 左腿
   ctx.save()
-  ctx.translate(p.x + 15, p.y + 35)
+  ctx.translate(p.x + 15 + offsetX, p.y + 35 + offsetY)
   ctx.rotate((-legAngle * Math.PI) / 180)
   ctx.fillRect(-3, 0, 6, 12)
   ctx.restore()
   
   // 右腿
   ctx.save()
-  ctx.translate(p.x + 25, p.y + 35)
+  ctx.translate(p.x + 25 + offsetX, p.y + 35 + offsetY)
   ctx.rotate((legAngle * Math.PI) / 180)
   ctx.fillRect(-3, 0, 6, 12)
   ctx.restore()
@@ -544,13 +638,59 @@ const drawPlayer = () => {
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)'
     ctx.lineWidth = 2
     ctx.beginPath()
-    ctx.moveTo(p.x - 5, centerY)
-    ctx.quadraticCurveTo(p.x - 10, centerY - 10, p.x - 5, centerY - 20)
-    ctx.moveTo(p.x - 8, centerY + 5)
-    ctx.quadraticCurveTo(p.x - 13, centerY - 5, p.x - 8, centerY - 15)
+    ctx.moveTo(p.x - 5 + offsetX, centerY + offsetY)
+    ctx.quadraticCurveTo(p.x - 10 + offsetX, centerY - 10 + offsetY, p.x - 5 + offsetX, centerY - 20 + offsetY)
+    ctx.moveTo(p.x - 8 + offsetX, centerY + 5 + offsetY)
+    ctx.quadraticCurveTo(p.x - 13 + offsetX, centerY - 5 + offsetY, p.x - 8 + offsetX, centerY - 15 + offsetY)
     ctx.stroke()
   }
   
+  ctx.restore()
+}
+
+// 绘制碰撞效果
+const drawHitEffect = () => {
+  const p = player.value
+  const centerX = p.x + p.width / 2
+  const centerY = p.y + p.height / 2
+  
+  // 爆炸效果
+  ctx.save()
+  ctx.globalAlpha = 0.8
+  
+  const explosionRadius = (hitDuration - hitTimer) * 2
+  const particleCount = 8
+  
+  for (let i = 0; i < particleCount; i++) {
+    const angle = (i / particleCount) * Math.PI * 2
+    const x = centerX + Math.cos(angle) * explosionRadius
+    const y = centerY + Math.sin(angle) * explosionRadius
+    
+    ctx.fillStyle = i % 2 === 0 ? '#FF4444' : '#FFAA00'
+    ctx.beginPath()
+    ctx.arc(x, y, 3, 0, Math.PI * 2)
+    ctx.fill()
+  }
+  
+  ctx.restore()
+}
+
+// 绘制生命值损失提示
+const drawLifeLossIndicator = () => {
+  const p = player.value
+  const alpha = (hitDuration - hitTimer + 30) / 30
+  
+  ctx.save()
+  ctx.globalAlpha = alpha
+  ctx.fillStyle = '#FF0000'
+  ctx.font = 'bold 24px Arial'
+  ctx.textAlign = 'center'
+  ctx.fillText('-1', p.x + p.width/2, p.y - 20)
+  
+  // 添加白色描边
+  ctx.strokeStyle = '#FFFFFF'
+  ctx.lineWidth = 2
+  ctx.strokeText('-1', p.x + p.width/2, p.y - 20)
   ctx.restore()
 }
 
