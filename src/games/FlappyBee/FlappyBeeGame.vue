@@ -155,12 +155,16 @@ const playScoreSound = () => {
 };
 
 // 背景音乐控制
-const startBackgroundMusic = () => {
+const startBackgroundMusic = async () => {
   if (bgMusic && !isMuted.value) {
-    bgMusic.currentTime = 0;
-    bgMusic.play().catch(error => {
-      console.log('需要用户交互后才能播放音乐:', error);
-    });
+    try {
+      bgMusic.currentTime = 0;
+      await bgMusic.play();
+      console.log('背景音乐播放成功');
+    } catch (error) {
+      console.warn('背景音乐播放失败 - 这通常是由于浏览器的自动播放限制:', error);
+      // 可以在这里添加用户提示，告知需要手动启用音乐
+    }
   }
 };
 
@@ -380,7 +384,16 @@ const beeFlap = () => {
 };
 
 // 游戏控制
-const startGame = () => {
+const startGame = async () => {
+  // 先尝试激活音频上下文（如果需要的话）
+  if (audioCtx && audioCtx.state === 'suspended') {
+    try {
+      await audioCtx.resume();
+    } catch (error) {
+      console.warn('音频上下文激活失败:', error);
+    }
+  }
+
   gameState.value = 'playing';
   score.value = 0;
   frames = 0;

@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, type Component } from 'vue';
+import { computed, onMounted, shallowRef, type Component } from 'vue';
 import { useRouter } from 'vue-router';
 import { useGames } from '@/composables/useGames';
 
@@ -25,7 +25,7 @@ const router = useRouter();
 const { getGameById } = useGames();
 
 const currentGame = computed(() => getGameById(props.id));
-const GameComponent = ref<Component | null>(null);
+const GameComponent = shallowRef<Component | null>(null);
 
 onMounted(async () => {
   if (currentGame.value) {
