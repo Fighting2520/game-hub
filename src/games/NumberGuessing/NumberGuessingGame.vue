@@ -518,12 +518,12 @@ onUnmounted(() => {
 
 <style scoped>
 .number-guessing-game {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
-  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .game-header {
@@ -566,11 +566,15 @@ onUnmounted(() => {
 }
 
 .game-container {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   padding: 30px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 1000px;
+  width: 100%;
+  color: white;
 }
 
 .game-instructions {
