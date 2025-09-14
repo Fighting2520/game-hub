@@ -107,5 +107,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/sudoku/thumbnail.svg',
     route: '/game/sudoku',
     component: () => import('@/games/Sudoku/SudokuGame.vue')
+  },
+  {
+    id: 'gomoku',
+    title: '五子棋',
+    description: '经典五子棋游戏！支持人机对战和双人对战，挑战你的策略思维！',
+    tags: ['h5game', '策略', '对战', '经典'],
+    thumbnail: '/src/assets/games/gomoku/thumbnail.svg',
+    route: '/game/gomoku',
+    component: () => import('@/games/Gomoku/GomokuGame.vue')
   }
 ];
