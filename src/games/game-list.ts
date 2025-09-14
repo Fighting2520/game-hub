@@ -44,5 +44,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/jumping-man/thumbnail.svg',
     route: '/game/jumping-man',
     component: () => import('@/games/JumpingMan/JumpingManGame.vue')
+  },
+  {
+    id: 'catch-game',
+    title: '接物游戏',
+    description: '移动篮子接住好物品，避开危险物品，挑战高分和连击！',
+    tags: ['h5game', '接物', '反应', '技巧'],
+    thumbnail: '/src/assets/games/catch-game/thumbnail.svg',
+    route: '/game/catch-game',
+    component: () => import('@/games/CatchGame/CatchGame.vue')
   }
 ];

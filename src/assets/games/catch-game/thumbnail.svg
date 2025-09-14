@@ -1,0 +1,100 @@
+<svg width="200" height="150" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景天空渐变 -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="200" height="150" fill="url(#skyGradient)"/>
+  
+  <!-- 云朵 -->
+  <g fill="#FFF" opacity="0.8">
+    <circle cx="30" cy="25" r="12"/>
+    <circle cx="45" cy="25" r="15"/>
+    <circle cx="60" cy="25" r="12"/>
+    <circle cx="40" cy="15" r="10"/>
+    <circle cx="50" cy="15" r="10"/>
+    
+    <circle cx="130" cy="20" r="10"/>
+    <circle cx="142" cy="20" r="12"/>
+    <circle cx="154" cy="20" r="10"/>
+    <circle cx="142" cy="12" r="8"/>
+  </g>
+  
+  <!-- 掉落的物品 -->
+  <!-- 苹果 -->
+  <g transform="translate(40, 50)">
+    <circle cx="0" cy="2" r="8" fill="#FF4444"/>
+    <circle cx="0" cy="-3" r="6" fill="#CC3333"/>
+    <rect x="-1" y="-8" width="2" height="4" fill="#8B4513"/>
+    <ellipse cx="2" cy="-6" rx="3" ry="1.5" fill="#228B22" transform="rotate(30)"/>
+  </g>
+  
+  <!-- 宝石 -->
+  <g transform="translate(80, 40)">
+    <polygon points="0,-8 6,-4 6,4 0,8 -6,4 -6,-4" fill="#44FF44"/>
+    <polygon points="0,-8 3,-4 0,0 -3,-4" fill="#AAFFAA"/>
+  </g>
+  
+  <!-- 星星 -->
+  <g transform="translate(120, 35)">
+    <polygon points="0,-8 2,-2 8,-2 3,2 5,8 0,5 -5,8 -3,2 -8,-2 -2,-2" fill="#FFFF44"/>
+    <circle cx="0" cy="0" r="3" fill="#FFFFAA"/>
+  </g>
+  
+  <!-- 炸弹 -->
+  <g transform="translate(160, 45)">
+    <circle cx="0" cy="2" r="6" fill="#333333"/>
+    <line x1="0" y1="-4" x2="-2" y2="-8" stroke="#8B4513" stroke-width="1.5"/>
+    <circle cx="-2" cy="-8" r="2" fill="#FF6600"/>
+    <circle cx="-2" cy="0" r="2" fill="#FFFFFF"/>
+    <circle cx="2" cy="0" r="2" fill="#FFFFFF"/>
+    <circle cx="-2" cy="0" r="0.5" fill="#000000"/>
+    <circle cx="2" cy="0" r="0.5" fill="#000000"/>
+  </g>
+  
+  <!-- 垃圾桶 -->
+  <g transform="translate(60, 70)">
+    <rect x="-6" y="-4" width="12" height="12" fill="#8B4513"/>
+    <rect x="-8" y="-8" width="16" height="4" fill="#654321"/>
+    <path d="M -4,-6 A 2,2 0 0,0 -4,-6" stroke="#654321" stroke-width="1" fill="none"/>
+    <path d="M 4,-6 A 2,2 0 0,0 4,-6" stroke="#654321" stroke-width="1" fill="none"/>
+  </g>
+  
+  <!-- 更多掉落物品 -->
+  <circle cx="100" cy="60" r="5" fill="#FF4444"/>
+  <polygon points="140,65 143,68 140,71 137,68" fill="#44FF44"/>
+  <circle cx="25" cy="80" r="4" fill="#333333"/>
+  
+  <!-- 篮子 -->
+  <g transform="translate(100, 120)">
+    <!-- 篮子主体 -->
+    <rect x="-25" y="-12" width="50" height="20" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+    
+    <!-- 篮子纹理 -->
+    <g stroke="#A0522D" stroke-width="1">
+      <line x1="-15" y1="-12" x2="-15" y2="8"/>
+      <line x1="-5" y1="-12" x2="-5" y2="8"/>
+      <line x1="5" y1="-12" x2="5" y2="8"/>
+      <line x1="15" y1="-12" x2="15" y2="8"/>
+    </g>
+    
+    <!-- 篮子把手 -->
+    <path d="M -25,-12 A 25,25 0 0,0 25,-12" stroke="#654321" stroke-width="3" fill="none"/>
+  </g>
+  
+  <!-- 运动轨迹线 -->
+  <g stroke="#FFF" stroke-width="1" opacity="0.6" fill="none">
+    <path d="M 45 55 Q 50 65 55 75"/>
+    <path d="M 85 45 Q 90 55 95 65"/>
+    <path d="M 125 40 Q 130 50 135 60"/>
+  </g>
+  
+  <!-- 连击效果 -->
+  <text x="100" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFD700" stroke="#FF4500" stroke-width="0.5">3x COMBO!</text>
+  
+  <!-- 游戏标题 -->
+  <text x="100" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">接物游戏</text>
+</svg>
