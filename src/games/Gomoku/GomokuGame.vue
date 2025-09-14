@@ -462,45 +462,207 @@ const getBestMove = (difficulty: Difficulty): { x: number, y: number } | null =>
     }
   }
 
-  // 简单难度或随机选择
-  if (difficulty.name === '简单' || Math.random() < difficulty.randomness) {
+  // 简单难度：随机选择
+  if (difficulty.name === '简单') {
     return availableMoves[Math.floor(Math.random() * availableMoves.length)]
   }
 
-  // 使用简化的策略算法
+  // 1. 首先检查是否能直接获胜
+  for (const move of availableMoves) {
+    board.value[move.y][move.x] = 'white'
+    if (checkWin(move.x, move.y, 'white')) {
+      board.value[move.y][move.x] = null
+      console.log('AI找到获胜位置:', move)
+      return move
+    }
+    board.value[move.y][move.x] = null
+  }
+
+  // 2. 检查是否需要阻止对手获胜
+  for (const move of availableMoves) {
+    board.value[move.y][move.x] = 'black'
+    if (checkWin(move.x, move.y, 'black')) {
+      board.value[move.y][move.x] = null
+      console.log('AI阻止对手获胜:', move)
+      return move
+    }
+    board.value[move.y][move.x] = null
+  }
+
+  // 3. 使用高级评估算法
   let bestMove = availableMoves[0]
   let bestScore = -Infinity
 
-  // 限制搜索范围以提高性能
-  const searchMoves = availableMoves.slice(0, Math.min(15, availableMoves.length))
+  // 根据难度限制搜索范围
+  const searchLimit = difficulty.name === '困难' ? 25 : 15
+  const searchMoves = availableMoves.slice(0, Math.min(searchLimit, availableMoves.length))
   
   for (const move of searchMoves) {
-    board.value[move.y][move.x] = 'white'
-    let score = 0
+    const score = evaluateMoveAdvanced(move.x, move.y, 'white', difficulty)
     
-    // 简化评估：只检查直接威胁和机会
-    if (checkWin(move.x, move.y, 'white')) {
-      score = 10000 // 获胜
-    } else {
-      score = evaluatePosition(move.x, move.y, 'white')
-      
-      // 检查是否阻止对手获胜
-      board.value[move.y][move.x] = 'black'
-      if (checkWin(move.x, move.y, 'black')) {
-        score += 5000 // 阻止对手获胜
-      }
-      board.value[move.y][move.x] = 'white'
-    }
-    
-    board.value[move.y][move.x] = null
-
     if (score > bestScore) {
       bestScore = score
       bestMove = move
     }
   }
 
+  console.log('AI选择位置:', bestMove, '评分:', bestScore)
   return bestMove
+}
+
+// 高级移动评估
+const evaluateMoveAdvanced = (x: number, y: number, color: Player, difficulty: Difficulty): number => {
+  board.value[y][x] = color
+  
+  let score = 0
+  
+  // 基础位置评分
+  score += getPositionScore(x, y)
+  
+  // 连子模式评分
+  score += getPatternScore(x, y, color) * 10
+  
+  // 防守评分
+  board.value[y][x] = color === 'white' ? 'black' : 'white'
+  score += getPatternScore(x, y, color === 'white' ? 'black' : 'white') * 8
+  board.value[y][x] = color
+  
+  // 困难模式使用更深层的分析
+  if (difficulty.name === '困难') {
+    score += getStrategicScore(x, y, color)
+  }
+  
+  board.value[y][x] = null
+  return score
+}
+
+// 获取位置基础评分
+const getPositionScore = (x: number, y: number): number => {
+  // 中心位置更有价值
+  const centerDistance = Math.abs(x - 7) + Math.abs(y - 7)
+  return Math.max(0, 14 - centerDistance)
+}
+
+// 获取连子模式评分
+const getPatternScore = (x: number, y: number, color: Player): number => {
+  const directions = [[1, 0], [0, 1], [1, 1], [1, -1]]
+  let totalScore = 0
+  
+  for (const [dx, dy] of directions) {
+    const pattern = getLinePattern(x, y, dx, dy, color)
+    totalScore += evaluatePattern(pattern)
+  }
+  
+  return totalScore
+}
+
+// 获取一条线的模式
+const getLinePattern = (x: number, y: number, dx: number, dy: number, color: Player): string => {
+  let pattern = ''
+  
+  // 向后检查4个位置
+  for (let i = -4; i <= 4; i++) {
+    const nx = x + dx * i
+    const ny = y + dy * i
+    
+    if (nx < 0 || nx >= 15 || ny < 0 || ny >= 15) {
+      pattern += 'X' // 边界
+    } else if (board.value[ny][nx] === color) {
+      pattern += 'O' // 己方棋子
+    } else if (board.value[ny][nx] === null) {
+      pattern += '_' // 空位
+    } else {
+      pattern += 'X' // 对方棋子或边界
+    }
+  }
+  
+  return pattern
+}
+
+// 评估模式价值
+const evaluatePattern = (pattern: string): number => {
+  // 五子棋经典模式评分
+  const patterns = {
+    'OOOOO': 100000,    // 五连
+    '_OOOO_': 10000,    // 活四
+    'XOOOO_': 1000,     // 冲四
+    '_OOOOX': 1000,     // 冲四
+    '_OOO_': 1000,      // 活三
+    '_OOO__': 500,      // 眠三
+    '__OOO_': 500,      // 眠三
+    'XOOO__': 100,      // 眠三
+    '__OOOX': 100,      // 眠三
+    '_OO_': 100,        // 活二
+    '_OO__': 50,        // 眠二
+    '__OO_': 50,        // 眠二
+    'XOO__': 10,        // 眠二
+    '__OOX': 10,        // 眠二
+  }
+  
+  let score = 0
+  for (const [pat, val] of Object.entries(patterns)) {
+    if (pattern.includes(pat)) {
+      score += val
+    }
+  }
+  
+  return score
+}
+
+// 获取战略评分（困难模式专用）
+const getStrategicScore = (x: number, y: number, color: Player): number => {
+  let score = 0
+  
+  // 检查是否形成多重威胁
+  const threats = countThreats(x, y, color)
+  if (threats >= 2) {
+    score += 2000 // 双威胁
+  }
+  
+  // 检查是否控制关键区域
+  score += getControlScore(x, y, color)
+  
+  return score
+}
+
+// 计算威胁数量
+const countThreats = (x: number, y: number, color: Player): number => {
+  const directions = [[1, 0], [0, 1], [1, 1], [1, -1]]
+  let threats = 0
+  
+  for (const [dx, dy] of directions) {
+    const pattern = getLinePattern(x, y, dx, dy, color)
+    if (pattern.includes('_OOO_') || pattern.includes('_OOOO_')) {
+      threats++
+    }
+  }
+  
+  return threats
+}
+
+// 获取控制评分
+const getControlScore = (x: number, y: number, color: Player): number => {
+  let score = 0
+  
+  // 检查周围8个方向的控制力
+  for (let dx = -1; dx <= 1; dx++) {
+    for (let dy = -1; dy <= 1; dy++) {
+      if (dx === 0 && dy === 0) continue
+      
+      const nx = x + dx
+      const ny = y + dy
+      
+      if (nx >= 0 && nx < 15 && ny >= 0 && ny < 15) {
+        if (board.value[ny][nx] === color) {
+          score += 5 // 己方棋子增加控制力
+        } else if (board.value[ny][nx] === null) {
+          score += 1 // 空位也有价值
+        }
+      }
+    }
+  }
+  
+  return score
 }
 
 // Minimax算法（带Alpha-Beta剪枝）
