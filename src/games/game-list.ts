@@ -98,5 +98,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/minesweeper/thumbnail.svg',
     route: '/game/minesweeper',
     component: () => import('@/games/Minesweeper/MinesweeperGame.vue')
+  },
+  {
+    id: 'sudoku',
+    title: '数独游戏',
+    description: '经典数独游戏！在9×9网格中填入数字，挑战你的逻辑推理能力！',
+    tags: ['h5game', '益智', '逻辑', '经典'],
+    thumbnail: '/src/assets/games/sudoku/thumbnail.svg',
+    route: '/game/sudoku',
+    component: () => import('@/games/Sudoku/SudokuGame.vue')
   }
 ];
