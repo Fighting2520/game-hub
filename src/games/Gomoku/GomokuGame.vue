@@ -20,7 +20,7 @@
       <!-- 游戏控制 -->
       <div class="game-controls">
         <div class="control-group">
-          <button @click="showModeSelect = true" class="mode-btn" :disabled="gameState === 'playing'">
+          <button @click="showModeSelect = true" class="mode-btn">
             🎮 游戏模式
           </button>
           <button @click="undoMove" class="undo-btn" :disabled="!canUndo">
@@ -368,9 +368,9 @@ const checkDraw = (): boolean => {
 }
 
 // 下棋
-const makeMove = async (x: number, y: number) => {
+const makeMove = async (x: number, y: number, isAIMove: boolean = false) => {
   if (gameState.value !== 'playing' || board.value[y][x] !== null) return
-  if (gameMode.value === 'ai' && currentPlayer.value === 'white') return
+  if (gameMode.value === 'ai' && currentPlayer.value === 'white' && !isAIMove) return
 
   // 放置棋子
   board.value[y][x] = currentPlayer.value
@@ -417,6 +417,7 @@ const makeMove = async (x: number, y: number) => {
 
   // AI回合
   if (gameMode.value === 'ai' && currentPlayer.value === 'white') {
+    console.log('触发AI回合', { gameMode: gameMode.value, currentPlayer: currentPlayer.value })
     await nextTick()
     setTimeout(() => {
       makeAIMove()
@@ -426,31 +427,71 @@ const makeMove = async (x: number, y: number) => {
 
 // AI下棋
 const makeAIMove = () => {
+  console.log('AI开始思考...', { gameMode: gameMode.value, currentPlayer: currentPlayer.value })
+  
   const difficulty = difficulties.find(d => d.name === aiDifficulty.value)!
   const move = getBestMove(difficulty)
   
+  console.log('AI选择的位置:', move)
+  
   if (move) {
-    makeMove(move.x, move.y)
+    makeMove(move.x, move.y, true)
+  } else {
+    console.log('AI没有找到可用位置')
   }
 }
 
 // 获取最佳移动（AI算法）
 const getBestMove = (difficulty: Difficulty): { x: number, y: number } | null => {
   const availableMoves = getAvailableMoves()
+  console.log('可用位置数量:', availableMoves.length)
+  
   if (availableMoves.length === 0) return null
 
-  // 简单难度：随机选择
+  // 如果是第一步，AI下在中心附近
+  if (pieces.value.length === 1) {
+    const centerMoves = [
+      { x: 7, y: 7 }, { x: 6, y: 7 }, { x: 8, y: 7 }, 
+      { x: 7, y: 6 }, { x: 7, y: 8 }, { x: 6, y: 6 }, 
+      { x: 8, y: 8 }, { x: 6, y: 8 }, { x: 8, y: 6 }
+    ]
+    for (const move of centerMoves) {
+      if (board.value[move.y][move.x] === null) {
+        return move
+      }
+    }
+  }
+
+  // 简单难度或随机选择
   if (difficulty.name === '简单' || Math.random() < difficulty.randomness) {
     return availableMoves[Math.floor(Math.random() * availableMoves.length)]
   }
 
-  // 使用Minimax算法
+  // 使用简化的策略算法
   let bestMove = availableMoves[0]
   let bestScore = -Infinity
 
-  for (const move of availableMoves.slice(0, Math.min(20, availableMoves.length))) {
+  // 限制搜索范围以提高性能
+  const searchMoves = availableMoves.slice(0, Math.min(15, availableMoves.length))
+  
+  for (const move of searchMoves) {
     board.value[move.y][move.x] = 'white'
-    const score = minimax(difficulty.depth - 1, false, -Infinity, Infinity)
+    let score = 0
+    
+    // 简化评估：只检查直接威胁和机会
+    if (checkWin(move.x, move.y, 'white')) {
+      score = 10000 // 获胜
+    } else {
+      score = evaluatePosition(move.x, move.y, 'white')
+      
+      // 检查是否阻止对手获胜
+      board.value[move.y][move.x] = 'black'
+      if (checkWin(move.x, move.y, 'black')) {
+        score += 5000 // 阻止对手获胜
+      }
+      board.value[move.y][move.x] = 'white'
+    }
+    
     board.value[move.y][move.x] = null
 
     if (score > bestScore) {
