@@ -1,0 +1,132 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cellGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0e0e0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c0c0c0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="revealedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f0f0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d0d0d0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="mineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ee5a52;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="200" height="200" fill="url(#bgGradient)" rx="20"/>
+  
+  <!-- 游戏标题区域 -->
+  <rect x="20" y="20" width="160" height="40" fill="rgba(255,255,255,0.2)" rx="10" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  
+  <!-- 地雷图标 -->
+  <circle cx="45" cy="40" r="8" fill="#333"/>
+  <circle cx="45" cy="40" r="6" fill="#000"/>
+  <rect x="41" y="36" width="8" height="8" fill="#000"/>
+  <rect x="43" y="34" width="4" height="12" fill="#000"/>
+  <rect x="39" y="38" width="12" height="4" fill="#000"/>
+  <circle cx="45" cy="40" r="2" fill="#fff"/>
+  
+  <!-- 标题文字 -->
+  <text x="65" y="35" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">扫雷</text>
+  <text x="65" y="48" font-family="Arial, sans-serif" font-size="8" fill="rgba(255,255,255,0.8)">MINESWEEPER</text>
+  
+  <!-- 计数器显示 -->
+  <rect x="120" y="28" width="50" height="24" fill="rgba(0,0,0,0.3)" rx="4"/>
+  <text x="145" y="42" font-family="monospace" font-size="12" font-weight="bold" fill="#00ff00" text-anchor="middle">010</text>
+  
+  <!-- 雷区网格 -->
+  <g transform="translate(30, 80)">
+    <!-- 网格背景 -->
+    <rect x="0" y="0" width="140" height="100" fill="#999" rx="5"/>
+    
+    <!-- 第一行 -->
+    <rect x="5" y="5" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="25" y="5" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="34" y="17" font-family="Arial" font-size="12" font-weight="bold" fill="#0000ff" text-anchor="middle">1</text>
+    
+    <rect x="45" y="5" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="54" y="17" font-family="Arial" font-size="12" font-weight="bold" fill="#008000" text-anchor="middle">2</text>
+    
+    <rect x="65" y="5" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <!-- 旗帜 -->
+    <polygon points="69,8 69,20 75,17 75,11" fill="#ff0000"/>
+    <rect x="75" y="8" width="1" height="12" fill="#8B4513"/>
+    
+    <rect x="85" y="5" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="105" y="5" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="114" y="17" font-family="Arial" font-size="12" font-weight="bold" fill="#ff0000" text-anchor="middle">3</text>
+    
+    <rect x="125" y="5" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    
+    <!-- 第二行 -->
+    <rect x="5" y="25" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="14" y="37" font-family="Arial" font-size="12" font-weight="bold" fill="#000080" text-anchor="middle">4</text>
+    
+    <rect x="25" y="25" width="18" height="18" fill="url(#mineGradient)" stroke="#999" stroke-width="1"/>
+    <!-- 爆炸的地雷 -->
+    <circle cx="34" cy="34" r="6" fill="#000"/>
+    <circle cx="34" cy="34" r="4" fill="#333"/>
+    <rect x="30" y="30" width="8" height="8" fill="#000"/>
+    <rect x="32" y="28" width="4" height="12" fill="#000"/>
+    <rect x="28" y="32" width="12" height="4" fill="#000"/>
+    <circle cx="34" cy="34" r="2" fill="#fff"/>
+    
+    <rect x="45" y="25" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="65" y="25" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="74" y="37" font-family="Arial" font-size="12" font-weight="bold" fill="#800000" text-anchor="middle">5</text>
+    
+    <rect x="85" y="25" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="105" y="25" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="125" y="25" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    
+    <!-- 第三行 -->
+    <rect x="5" y="45" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="25" y="45" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="34" y="57" font-family="Arial" font-size="12" font-weight="bold" fill="#008080" text-anchor="middle">6</text>
+    
+    <rect x="45" y="45" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="54" y="57" font-family="Arial" font-size="12" font-weight="bold" fill="#000" text-anchor="middle">7</text>
+    
+    <rect x="65" y="45" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <!-- 另一个旗帜 -->
+    <polygon points="69,48 69,60 75,57 75,51" fill="#ff0000"/>
+    <rect x="75" y="48" width="1" height="12" fill="#8B4513"/>
+    
+    <rect x="85" y="45" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="94" y="57" font-family="Arial" font-size="12" font-weight="bold" fill="#808080" text-anchor="middle">8</text>
+    
+    <rect x="105" y="45" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="125" y="45" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    
+    <!-- 第四行 -->
+    <rect x="5" y="65" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="25" y="65" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="45" y="65" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="65" y="65" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="74" y="77" font-family="Arial" font-size="12" font-weight="bold" fill="#0000ff" text-anchor="middle">1</text>
+    
+    <rect x="85" y="65" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <rect x="105" y="65" width="18" height="18" fill="url(#revealedGradient)" stroke="#999" stroke-width="1"/>
+    <text x="114" y="77" font-family="Arial" font-size="12" font-weight="bold" fill="#008000" text-anchor="middle">2</text>
+    
+    <rect x="125" y="65" width="18" height="18" fill="url(#cellGradient)" stroke="#999" stroke-width="1"/>
+  </g>
+  
+  <!-- 装饰性爆炸效果 -->
+  <g opacity="0.6">
+    <circle cx="64" cy="109" r="3" fill="#ffff00"/>
+    <circle cx="68" cy="105" r="2" fill="#ff8800"/>
+    <circle cx="60" cy="113" r="2" fill="#ff4400"/>
+    <circle cx="72" cy="111" r="1.5" fill="#ffaa00"/>
+  </g>
+  
+  <!-- 底部装饰 -->
+  <rect x="20" y="190" width="160" height="2" fill="rgba(255,255,255,0.3)" rx="1"/>
+</svg>

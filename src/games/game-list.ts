@@ -89,5 +89,14 @@ export const GAME_LIST: IGame[] = [
     thumbnail: '/src/assets/games/memory-card/thumbnail.svg',
     route: '/game/memory-card',
     component: () => import('@/games/MemoryCard/MemoryCardGame.vue')
+  },
+  {
+    id: 'minesweeper',
+    title: '扫雷游戏',
+    description: '经典扫雷游戏！通过数字提示找出所有地雷位置，挑战你的逻辑推理！',
+    tags: ['h5game', '益智', '逻辑', '经典'],
+    thumbnail: '/src/assets/games/minesweeper/thumbnail.svg',
+    route: '/game/minesweeper',
+    component: () => import('@/games/Minesweeper/MinesweeperGame.vue')
   }
 ];
