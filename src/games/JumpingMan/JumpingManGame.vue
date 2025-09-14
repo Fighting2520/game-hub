@@ -370,13 +370,7 @@ const render = () => {
   drawClouds()
   
   // 绘制玩家
-  ctx.fillStyle = player.value.color
-  ctx.fillRect(player.value.x, player.value.y, player.value.width, player.value.height)
-  
-  // 绘制玩家眼睛
-  ctx.fillStyle = '#000'
-  ctx.fillRect(player.value.x + 8, player.value.y + 8, 4, 4)
-  ctx.fillRect(player.value.x + 20, player.value.y + 8, 4, 4)
+  drawPlayer()
   
   // 绘制障碍物
   obstacles.value.forEach(obstacle => {
@@ -420,6 +414,95 @@ const drawCloud = (x: number, y: number) => {
   ctx.arc(x + 15, y - 15, 15, 0, Math.PI * 2)
   ctx.arc(x + 35, y - 15, 15, 0, Math.PI * 2)
   ctx.fill()
+}
+
+// 绘制玩家角色
+const drawPlayer = () => {
+  const p = player.value
+  const centerX = p.x + p.width / 2
+  const centerY = p.y + p.height / 2
+  
+  // 根据跳跃状态调整姿势
+  const isJumping = !p.isOnGround
+  const armAngle = isJumping ? -30 : 0
+  const legAngle = isJumping ? 20 : 0
+  
+  ctx.save()
+  
+  // 身体
+  ctx.fillStyle = '#4CAF50'
+  ctx.fillRect(p.x + 10, p.y + 15, 20, 20)
+  
+  // 头部
+  ctx.beginPath()
+  ctx.arc(centerX, p.y + 12, 12, 0, Math.PI * 2)
+  ctx.fill()
+  
+  // 眼睛
+  ctx.fillStyle = '#000'
+  ctx.beginPath()
+  ctx.arc(centerX - 4, p.y + 9, 2, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.arc(centerX + 4, p.y + 9, 2, 0, Math.PI * 2)
+  ctx.fill()
+  
+  // 嘴巴 (根据跳跃状态改变表情)
+  ctx.strokeStyle = '#000'
+  ctx.lineWidth = 1.5
+  ctx.beginPath()
+  if (isJumping) {
+    // 跳跃时开心的表情
+    ctx.arc(centerX, p.y + 14, 4, 0, Math.PI)
+  } else {
+    // 正常表情
+    ctx.moveTo(centerX - 3, p.y + 15)
+    ctx.quadraticCurveTo(centerX, p.y + 17, centerX + 3, p.y + 15)
+  }
+  ctx.stroke()
+  
+  // 左手臂
+  ctx.fillStyle = '#4CAF50'
+  ctx.save()
+  ctx.translate(p.x + 8, p.y + 20)
+  ctx.rotate((armAngle * Math.PI) / 180)
+  ctx.fillRect(-2, -2, 12, 4)
+  ctx.restore()
+  
+  // 右手臂
+  ctx.save()
+  ctx.translate(p.x + 32, p.y + 20)
+  ctx.rotate((-armAngle * Math.PI) / 180)
+  ctx.fillRect(-10, -2, 12, 4)
+  ctx.restore()
+  
+  // 左腿
+  ctx.save()
+  ctx.translate(p.x + 15, p.y + 35)
+  ctx.rotate((-legAngle * Math.PI) / 180)
+  ctx.fillRect(-3, 0, 6, 12)
+  ctx.restore()
+  
+  // 右腿
+  ctx.save()
+  ctx.translate(p.x + 25, p.y + 35)
+  ctx.rotate((legAngle * Math.PI) / 180)
+  ctx.fillRect(-3, 0, 6, 12)
+  ctx.restore()
+  
+  // 如果在跳跃，添加一些动态效果线条
+  if (isJumping) {
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(p.x - 5, centerY)
+    ctx.quadraticCurveTo(p.x - 10, centerY - 10, p.x - 5, centerY - 20)
+    ctx.moveTo(p.x - 8, centerY + 5)
+    ctx.quadraticCurveTo(p.x - 13, centerY - 5, p.x - 8, centerY - 15)
+    ctx.stroke()
+  }
+  
+  ctx.restore()
 }
 
 // 游戏结束
